@@ -1,12 +1,14 @@
 import os
-import urllib2
+import urllib3
 import json 
 
 ip = input("Enter target IP: ")
 url = "http://ip-api.com/json/"
-response=urllib2.urlopen(url+ip)
+http = urllib3.PoolManager()
+response=http.request("GET",url+ip)
+print(response.status)
 data=response.read()
-values=json.loads(data)
+values=json.loads(response.data)
 print("-------------------------------------------------------")
 print("IP: "+values["query"])
 print("City: "+values["city"])
